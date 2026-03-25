@@ -21,16 +21,67 @@ export interface Employee {
   email?: string;
   phone?: string;
   designation?: string;
+  department?: string;
   baseSalary: number;
-  allowances: number;
-  deductions: number;
   joiningDate: string;
   isActive: boolean;
   qrCode?: string;
   avatar?: string;
-  department?: { id: string; name: string };
-  shift?: { id: string; name: string; startTime: string; endTime: string };
+  shift?: {
+    id: string;
+    name: string;
+    startTime: string;
+    endTime: string;
+    breakMinutes: number;
+  };
   createdAt: string;
+}
+
+export interface Shift {
+  id: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+  breakMinutes: number;
+  isDefault: boolean;
+}
+
+export interface Payroll {
+  id: string;
+  employeeId: string;
+  month: number;
+  year: number;
+  baseSalary: number;
+  overtimePay: number;
+  bonus: number;
+  deductions: number;
+  totalPaid: number; 
+  presentDays: number;
+  absentDays: number;
+  leaveDays: number;
+  overtimeHours: number;
+  status: "PENDING" | "PROCESSED" | "PAID" | "CANCELLED"; 
+  paymentDate?: string;
+  employee?: {
+    name: string;
+    employeeCode: string;
+    designation?: string;
+    department?: string;
+  };
+}
+
+export interface LeaveRequest {
+  id: string;
+  employeeId: string;
+  leaveTypeId: string; 
+  fromDate: string; 
+  toDate: string; 
+  totalDays: number;
+  reason?: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  createdAt: string;
+  employee?: { name: string; employeeCode: string };
+  leaveType?: { name: string };
 }
 
 export interface Department {
@@ -40,20 +91,11 @@ export interface Department {
   _count?: { employees: number };
 }
 
-export interface Shift {
-  id: string;
-  name: string;
-  startTime: string;
-  endTime: string;
-  breakMinutes: number;
-  isNightShift: boolean;
-}
-
 export interface Attendance {
   id: string;
   employeeId: string;
   attendanceDate: string;
-  status: 'PRESENT' | 'ABSENT' | 'LEAVE' | 'HALF_DAY' | 'HOLIDAY';
+  status: "PRESENT" | "ABSENT" | "LEAVE" | "HALF_DAY" | "HOLIDAY";
   clockIn?: string;
   clockOut?: string;
   workingMinutes: number;
@@ -61,52 +103,14 @@ export interface Attendance {
   lateMinutes: number;
   checkInMethod?: string;
   note?: string;
-  employee?: Pick<Employee, 'name' | 'employeeCode' | 'designation'> & {
-    department?: { name: string };
-  };
-}
-
-export interface LeaveRequest {
-  id: string;
-  employeeId: string;
-  type: 'CASUAL' | 'SICK' | 'ANNUAL' | 'MATERNITY' | 'PATERNITY' | 'UNPAID';
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
-  startDate: string;
-  endDate: string;
-  totalDays: number;
-  reason: string;
-  rejectionReason?: string;
-  createdAt: string;
-  employee?: Pick<Employee, 'name' | 'employeeCode' | 'designation'>;
-}
-
-export interface Payroll {
-  id: string;
-  employeeId: string;
-  month: number;
-  year: number;
-  baseSalary: number;
-  allowances: number;
-  overtimePay: number;
-  bonus: number;
-  deductions: number;
-  tax: number;
-  grossSalary: number;
-  netSalary: number;
-  presentDays: number;
-  absentDays: number;
-  leaveDays: number;
-  overtimeHours: number;
-  status: 'DRAFT' | 'GENERATED' | 'PAID';
-  paymentDate?: string;
-  employee?: Pick<Employee, 'name' | 'employeeCode' | 'designation'> & {
+  employee?: Pick<Employee, "name" | "employeeCode" | "designation"> & {
     department?: { name: string };
   };
 }
 
 export interface Transaction {
   id: string;
-  type: 'INCOME' | 'EXPENSE';
+  type: "INCOME" | "EXPENSE";
   amount: number;
   transactionDate: string;
   description?: string;
@@ -180,8 +184,8 @@ export interface OrgSettings {
 
 export interface Subscription {
   id: string;
-  plan: 'FREE' | 'BASIC' | 'PRO' | 'ENTERPRISE';
-  status: 'ACTIVE' | 'INACTIVE' | 'TRIAL' | 'EXPIRED';
+  plan: "FREE" | "BASIC" | "PRO" | "ENTERPRISE";
+  status: "ACTIVE" | "INACTIVE" | "TRIAL" | "EXPIRED";
   maxEmployees: number;
   pricePerMonth: number;
   startDate: string;

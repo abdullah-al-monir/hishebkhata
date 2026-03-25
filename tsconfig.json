@@ -18,8 +18,18 @@
         "name": "next"
       }
     ],
+
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/store/*": ["./store/*"],
+      "@/types/*": ["./types/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/i18n/*": ["./i18n/*"],
+      "@/messages/*": ["./messages/*"]
     }
   },
   "include": [
